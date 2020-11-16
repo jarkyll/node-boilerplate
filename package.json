@@ -1,10 +1,7 @@
 {
-  "name": "node-express-mongoose-boilerplate",
-  "version": "1.5.0",
-  "description": "A boilerplate for building production-ready RESTful APIs using Node.js, Express, and Mongoose",
+  "name": "express",
+  "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "https://github.com/hagopj13/node-express-mongoose-boilerplate.git",
-  "author": "Hagop Jamkojian <hagopj13@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"
@@ -24,28 +21,6 @@
     "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "docker:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up"
   },
-  "keywords": [
-    "node",
-    "node.js",
-    "boilerplate",
-    "generator",
-    "express",
-    "rest",
-    "api",
-    "mongodb",
-    "mongoose",
-    "es6",
-    "es7",
-    "es8",
-    "es9",
-    "jest",
-    "travis",
-    "docker",
-    "passport",
-    "joi",
-    "eslint",
-    "prettier"
-  ],
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
