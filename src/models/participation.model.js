@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
 const { toJSON } = require('./plugins');
 
-const userSchema = mongoose.Schema(
+const participationSchema = mongoose.Schema(
   {
     discordId: {
       type: String,
       index: true,
       required: true,
     },
-    aliases: {
-      type: [String],
+    optIn: {
+      type: Date,
       required: true,
     },
-    username: {
-      type: String,
+    optOut: {
+      type: Date,
       required: true,
     },
   },
@@ -23,11 +23,11 @@ const userSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-userSchema.plugin(toJSON);
+participationSchema.plugin(toJSON);
 
 /**
- * @typedef User
+ * @typedef Participation
  */
-const User = mongoose.model('User', userSchema);
+const Participation = mongoose.model('Participation', participationSchema);
 
-module.exports = User;
+module.exports = Participation;

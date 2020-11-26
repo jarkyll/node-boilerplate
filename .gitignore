@@ -15,3 +15,5 @@ yarn-error.log
 coverage
 
 .idea/
+.editorconfig
+.gitattributes
