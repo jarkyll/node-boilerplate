@@ -22,7 +22,6 @@
 - **Testing**: unit and integration tests using [Jest](https://jestjs.io)
 - **Error handling**: centralized error handling mechanism
 - **API documentation**: with [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) and [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
-- **Process management**: advanced production process management using [PM2](https://pm2.keymetrics.io)
 - **Dependency management**: with [Yarn](https://yarnpkg.com)
 - **Environment variables**: using [dotenv](https://github.com/motdotla/dotenv) and [cross-env](https://github.com/kentcdodds/cross-env#readme)
 - **Security**: set security HTTP headers using [helmet](https://helmetjs.github.io)
@@ -143,19 +142,12 @@ To view the list of available APIs and their specifications, run the server and 
 
 List of available routes:
 
-**Auth routes**:\
-`POST /v1/auth/register` - register\
-`POST /v1/auth/login` - login\
-`POST /v1/auth/refresh-tokens` - refresh auth tokens\
-`POST /v1/auth/forgot-password` - send reset password email\
-`POST /v1/auth/reset-password` - reset password
-
-**User routes**:\
-`POST /v1/users` - create a user\
-`GET /v1/users` - get all users\
-`GET /v1/users/:userId` - get user\
-`PATCH /v1/users/:userId` - update user\
-`DELETE /v1/users/:userId` - delete user
+**Activity routes**:\
+`POST /v1/activities` - create an activity\
+`GET /v1/activities` - get all activities\
+`GET /v1/activities/:userId` - get activity\
+`PATCH /v1/activities/:userId` - update activity\
+`DELETE /v1/activities/:userId` - delete activity\
 
 ## Error Handling
 
@@ -190,12 +182,12 @@ For example, if you are trying to get a user from the DB who is not found, and y
 ```javascript
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
-const User = require('../models/User');
+const Activity = require('../models/Activity');
 
-const getUser = async (userId) => {
-  const user = await User.findById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+const getActivity = async (activityId) => {
+  const activity = await Activity.findById(activityId);
+  if (!activity) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Activity not found');
   }
 };
 ```
@@ -223,12 +215,11 @@ To require authentication for certain routes, you can use the `auth` middleware.
 
 ```javascript
 const express = require('express');
-const auth = require('../../middlewares/auth');
-const userController = require('../../controllers/user.controller');
+const activityController = require('../../controllers/activity.controller');
 
 const router = express.Router();
 
-router.post('/users', auth(), userController.createUser);
+router.post('/activities', activityController.createActivity);
 ```
 
 These routes require a valid JWT access token in the Authorization request header using the Bearer schema. If the request does not contain a valid access token, an Unauthorized (401) error is thrown.
@@ -251,12 +242,12 @@ The `auth` middleware can also be used to require certain rights/permissions to 
 
 ```javascript
 const express = require('express');
-const auth = require('../../middlewares/auth');
-const userController = require('../../controllers/user.controller');
+const auth = require('..//');
+const activityController = require('../../controllers/activity.controller');
 
 const router = express.Router();
 
-router.post('/users', auth('manageUsers'), userController.createUser);
+router.post('/activities', auth('manageUsers'), activityController.createActivity);
 ```
 
 In the example above, an authenticated user can access this route only if that user has the `manageUsers` permission.
@@ -286,7 +277,6 @@ In development mode, log messages of all severity levels will be printed to the 
 
 In production mode, only `info`, `warn`, and `error` logs will be printed to the console.\
 It is up to the server (or process manager) to actually read them from the console and store them in log files.\
-This app uses pm2 in production mode, which is already configured to store the logs in log files.
 
 Note: API request information (request url, response code, timestamp, etc.) are also automatically logged (using [morgan](https://github.com/expressjs/morgan)).
 
@@ -298,17 +288,17 @@ The app also contains 2 custom mongoose plugins that you can attach to any mongo
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const userSchema = mongoose.Schema(
+const activitySchema = mongoose.Schema(
   {
     /* schema definition here */
   },
   { timestamps: true }
 );
 
-userSchema.plugin(toJSON);
-userSchema.plugin(paginate);
+activitySchema.plugin(toJSON);
+activitySchema.plugin(paginate);
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', activitySchema);
 ```
 
 ### toJSON
