@@ -1,6 +1,6 @@
 ## Table of Contents
 
-- [Getting Started](#installation)
+- [Installation](#installation)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
 - [Error Handling](#error-handling)
